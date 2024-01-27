@@ -825,7 +825,7 @@ export interface ApiStayStay extends Schema.CollectionType {
     bedrooms: Attribute.Integer & Attribute.DefaultTo<0>;
     description: Attribute.String;
     amenities: Attribute.JSON;
-    cancellation: Attribute.String;
+    cancellation: Attribute.Text;
     checkInTime: Attribute.Time;
     checkOutTime: Attribute.Time;
     specialNote: Attribute.String;
