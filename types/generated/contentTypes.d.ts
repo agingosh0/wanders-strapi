@@ -362,30 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiStayStay extends Schema.CollectionType {
-  collectionName: 'stays';
-  info: {
-    singularName: 'stay';
-    pluralName: 'stays';
-    displayName: 'stay';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String;
-    galleryImgs: Attribute.Media;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::stay.stay', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::stay.stay', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -792,6 +768,82 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiLocationLocation extends Schema.CollectionType {
+  collectionName: 'locations';
+  info: {
+    singularName: 'location';
+    pluralName: 'locations';
+    displayName: 'Location';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    description: Attribute.String;
+    stays: Attribute.Relation<
+      'api::location.location',
+      'oneToMany',
+      'api::stay.stay'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::location.location',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::location.location',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiStayStay extends Schema.CollectionType {
+  collectionName: 'stays';
+  info: {
+    singularName: 'stay';
+    pluralName: 'stays';
+    displayName: 'stay';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    galleryImgs: Attribute.Media;
+    address: Attribute.String & Attribute.Required;
+    guest: Attribute.Integer & Attribute.DefaultTo<0>;
+    beds: Attribute.Integer & Attribute.DefaultTo<0>;
+    baths: Attribute.Integer & Attribute.DefaultTo<0>;
+    bedrooms: Attribute.Integer & Attribute.DefaultTo<0>;
+    description: Attribute.String;
+    amenities: Attribute.JSON;
+    cancellation: Attribute.String;
+    checkInTime: Attribute.Time;
+    checkOutTime: Attribute.Time;
+    specialNote: Attribute.String;
+    location: Attribute.Relation<
+      'api::stay.stay',
+      'manyToOne',
+      'api::location.location'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::stay.stay', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::stay.stay', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -802,7 +854,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::stay.stay': ApiStayStay;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -811,6 +862,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::location.location': ApiLocationLocation;
+      'api::stay.stay': ApiStayStay;
     }
   }
 }

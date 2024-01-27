@@ -16,14 +16,59 @@
       "type": "string"
     },
     "galleryImgs": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "guest": {
+      "default": 0,
+      "type": "integer"
+    },
+    "beds": {
+      "type": "integer",
+      "default": 0
+    },
+    "baths": {
+      "type": "integer",
+      "default": 0
+    },
+    "bedrooms": {
+      "default": 0,
+      "type": "integer"
+    },
+    "description": {
+      "type": "string"
+    },
+    "amenities": {
+      "type": "json"
+    },
+    "cancellation": {
+      "type": "string"
+    },
+    "checkInTime": {
+      "type": "time"
+    },
+    "checkOutTime": {
+      "type": "time"
+    },
+    "specialNote": {
+      "type": "string"
+    },
+    "location": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::location.location",
+      "inversedBy": "stays"
     }
   }
 }
